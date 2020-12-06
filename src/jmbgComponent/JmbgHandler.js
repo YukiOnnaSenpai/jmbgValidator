@@ -14,7 +14,7 @@ export default function JmbgHandler() {
 
         console.log(stringifiedData);
 
-        const day = stringifiedData.substring(0, 2);
+        const day = getDay(stringifiedData.substring(0, 2), stringifiedData.substring(2, 4), stringifiedData.substring(4, 7));
 
         const month = getMonthName(stringifiedData.substring(2, 4));
 
@@ -24,16 +24,43 @@ export default function JmbgHandler() {
 
     };
 
-    const getYear = (yearStr) => {
+    const getDay = (day, month, year) => {
+        if (month % 2 === 0) {
+            if (month == 2) {
+                if (year % 4 === 0) {
+                    if (day > 29) {
+                        return alert("Neispravan JMBG, dan ne moze biti veci od 29 u februaru prestupne");
+                    }
+                    return day;
+                }
+                else {
+                    if (day > 28) {
+                        return alert("Neispravan JMBG, dan ne moze biti veci od 28 u februaru");
+                    }
+                    return day;
+                }
+            }
+            if (day > 30) {
+                return alert("Neispravan JMBG, dan ne moze biti veci od 30 u parnom mesecu");
+            }
+            return day;
+        }
+        if (day > 31) {
+            return alert("Neispravan JMBG, dan ne moze biti veci od 31 u neparnom mesecu");
+        } 
+        return day;
+    }
+
+    const getYear = yearStr => {
         let year = yearStr.charAt(0) === 0 ? "2" + yearStr : "1" + yearStr;
 
         if (year > Date.getYear) {
-            return alert("Neispravan JMBG, godina ne moze imati vise od 12 meseci");
+            return alert("Neispravan JMBG, godina ne moze imati u buducnosti");
         }
         return year;
     }
 
-    const getMonthName = (month) => {
+    const getMonthName = month => {
         if (month > 12 && month < 1) {
             return alert("Neispravan JMBG, godina ne moze imati vise od 12 meseci");
         }
