@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
-
+import { regions } from './regions';
 export default function JmbgHandler() {
 
 
@@ -21,6 +21,8 @@ export default function JmbgHandler() {
         const year = getYear(stringifiedData.substring(4, 7));
 
         console.log(day + '/' + month + '/' + year);
+
+        console.log('Region: ', regions[stringifiedData.substring(7, 9)])
 
     };
 
