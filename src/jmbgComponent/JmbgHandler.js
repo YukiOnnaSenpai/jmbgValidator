@@ -5,14 +5,11 @@ export default function JmbgHandler() {
 
 
     const { register, handleSubmit, errors } = useForm({ mode: 'onBlur' });
-    const [jmbg, setJmbg] = useState("");
-
+    const [jmbgObject, setJmbgFields] = useState([{ day: 0, month: 0, year: 0, region: "", sex: "", checksum: 0 }]);
 
     const onSubmit = data => {
 
         let stringifiedData = String(data.jmbg);
-
-        console.log(stringifiedData);
 
         const day = getDay(stringifiedData.substring(0, 2), stringifiedData.substring(2, 4), stringifiedData.substring(4, 7));
 
@@ -20,9 +17,18 @@ export default function JmbgHandler() {
 
         const year = getYear(stringifiedData.substring(4, 7));
 
+        const region = regions[stringifiedData.substring(7, 9)];
+
         console.log(day + '/' + month + '/' + year);
 
-        console.log('Region: ', regions[stringifiedData.substring(7, 9)])
+        setJmbgFields({
+            day: day,
+            month: month,
+            year: year,
+            region: region,
+            sex: "",
+            checksum: ""
+        });
 
     };
 
@@ -93,7 +99,6 @@ export default function JmbgHandler() {
                 <div>
                     <input
                         name="jmbg"
-                        onChange={e => setJmbg(e.target.value)}
                         pattern="\d*"
                         placeholder="Unesite JMBG za validaciju"
                         ref={register({ required: true, maxLength: 13, minLength: 13 })}
@@ -109,9 +114,14 @@ export default function JmbgHandler() {
                 </div>
             </form>
 
-            {jmbg && (
+            {jmbgObject && (
                 <div>
-                <h4>Datum</h4>
+                <h4>{jmbgObject.day}</h4>
+                <h4>{jmbgObject.month}</h4>
+                <h4>{jmbgObject.year}</h4>
+                <h4>{jmbgObject.region}</h4>
+                <h4>{jmbgObject.sex}</h4>
+                <h4>{jmbgObject.checksum}</h4>
             </div>
             )}
 
