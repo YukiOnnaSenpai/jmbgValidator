@@ -7,7 +7,7 @@ export default function JmbgHandler() {
     const { register, handleSubmit, errors } = useForm({ mode: 'onBlur' });
     const [jmbgObject, setJmbgFields] = useState([{ day: 0, month: 0, year: 0, region: "", sex: "", checksum: 0 }]);
 
-    const onSubmit = data => {
+    const onSubmit = async data => {
 
         let stringifiedData = String(data.jmbg);
 
@@ -19,15 +19,20 @@ export default function JmbgHandler() {
 
         const region = regions[stringifiedData.substring(7, 9)];
 
+        const sex = getSex(stringifiedData.substring(9, 12));
+
+        const checksum = getControlNumber(stringifiedData);
+
         console.log(day + '/' + month + '/' + year);
+        console.log('Spol i broj djecine ' + sex);
 
         setJmbgFields({
             day: day,
             month: month,
             year: year,
             region: region,
-            sex: "",
-            checksum: ""
+            sex: sex,
+            checksum: checksum
         });
 
     };
@@ -55,7 +60,7 @@ export default function JmbgHandler() {
         }
         if (day > 31) {
             return alert("Neispravan JMBG, dan ne moze biti veci od 31 u neparnom mesecu");
-        } 
+        }
         return day;
     }
 
@@ -86,8 +91,46 @@ export default function JmbgHandler() {
             case '10': return 'Oktobar';
             case '11': return 'Novembar';
             case '12': return 'Decembar';
+            default: return 'Neispravan JMBG, neispravan mesec rodjenja.';
         }
 
+    }
+
+    const getSex = sex => {
+        if (Number(sex) > 0 && Number(sex) < 499) {
+            return Number(sex) + ' osoba rodjena za dati datum, muskog pola.';
+
+        }
+        else if (Number(sex) > 500 && Number(sex) < 999) {
+            let babyNo = Number(sex) - 500;
+            return babyNo + ' osoba rodjena za dati datum, zenskog pola';
+
+        } else {
+            return alert('Neispravan JMBG, neispravan jedinstveni broj pola');
+        }
+
+    }
+
+    const getControlNumber = (JMBG) => {
+        let calculatedControlNumber = 11 - ((
+            7 * (Number(JMBG.charAt(0)) + Number(JMBG.charAt(6)))
+            + 6 * (Number(JMBG.charAt(1)) + Number(JMBG.charAt(7)))
+            + 5 * (Number(JMBG.charAt(2)) + Number(JMBG.charAt(8)))
+            + 4 * (Number(JMBG.charAt(3)) + Number(JMBG.charAt(9)))
+            + 3 * (Number(JMBG.charAt(4)) + Number(JMBG.charAt(10)))
+            + 2 * (Number(JMBG.charAt(5)) + Number(JMBG.charAt(11)))) % 11);
+        let checksum;
+        if (calculatedControlNumber >= 1 && calculatedControlNumber <= 9) {
+            checksum = calculatedControlNumber;
+        } else {
+            checksum = 0;
+        }
+
+        if (Number(JMBG.charAt(12)) !== checksum) {
+            return alert('Nevalidan JMBG, neispravna kontrona cifra');
+        } else {
+            return checksum;
+        }
     }
 
     return (
@@ -116,13 +159,13 @@ export default function JmbgHandler() {
 
             {jmbgObject && (
                 <div>
-                <h4>{jmbgObject.day}</h4>
-                <h4>{jmbgObject.month}</h4>
-                <h4>{jmbgObject.year}</h4>
-                <h4>{jmbgObject.region}</h4>
-                <h4>{jmbgObject.sex}</h4>
-                <h4>{jmbgObject.checksum}</h4>
-            </div>
+                    <h4>{jmbgObject.day}</h4>
+                    <h4>{jmbgObject.month}</h4>
+                    <h4>{jmbgObject.year}</h4>
+                    <h4>{jmbgObject.region}</h4>
+                    <h4>{jmbgObject.sex}</h4>
+                    <h4>{jmbgObject.checksum}</h4>
+                </div>
             )}
 
         </div>
