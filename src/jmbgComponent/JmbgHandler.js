@@ -3,63 +3,83 @@ import { useForm } from "react-hook-form";
 import { regions } from './regions';
 export default function JmbgHandler() {
 
+    const initialState = [{ day: 0, month: 0, year: 0, region: "", sex: "", checksum: 0 }];
 
-    const { register, handleSubmit, errors } = useForm({ mode: 'onBlur' });
-    const [jmbgObject, setJmbgFields] = useState([{ day: 0, month: 0, year: 0, region: "", sex: "", checksum: 0 }]);
+    const { register, handleSubmit } = useForm({ mode: 'onBlur' });
+    const [jmbgObject, setJmbgFields] = useState(initialState);
+
+    const [showFields, setShowFields] = useState(false);;
 
     const onSubmit = async data => {
 
-        let stringifiedData = String(data.jmbg);
+        try {
+            let stringifiedData = getJmbg(data.jmbg);
 
-        const day = getDay(stringifiedData.substring(0, 2), stringifiedData.substring(2, 4), stringifiedData.substring(4, 7));
+            const day = getDay(stringifiedData.substring(0, 2), stringifiedData.substring(2, 4), stringifiedData.substring(4, 7));
 
-        const month = getMonthName(stringifiedData.substring(2, 4));
+            const month = getMonthName(stringifiedData.substring(2, 4));
 
-        const year = getYear(stringifiedData.substring(4, 7));
+            const year = getYear(stringifiedData.substring(4, 7));
 
-        const region = regions[stringifiedData.substring(7, 9)];
+            const region = regions[stringifiedData.substring(7, 9)];
 
-        const sex = getSex(stringifiedData.substring(9, 12));
+            const sex = getSex(stringifiedData.substring(9, 12));
 
-        const checksum = getControlNumber(stringifiedData);
+            const checksum = getControlNumber(stringifiedData);
 
-        console.log(day + '/' + month + '/' + year);
-        console.log('Spol i broj djecine ' + sex);
+            setJmbgFields({
+                day: day,
+                month: month,
+                year: year,
+                region: region,
+                sex: sex,
+                checksum: checksum
+            });
+            setShowFields(true);
 
-        setJmbgFields({
-            day: day,
-            month: month,
-            year: year,
-            region: region,
-            sex: sex,
-            checksum: checksum
-        });
+        }
+        catch (error) {
+            setJmbgFields(initialState)
+            setShowFields(false);
 
+        }
     };
+
+    const getJmbg = jmbg => {
+        if (jmbg.length !== 13) {
+            alert("Jmbg mora biti trinaestocifreni broj");
+            throw new Error();
+        }
+        return String(jmbg);
+    }
 
     const getDay = (day, month, year) => {
         if (month % 2 === 0) {
-            if (month == 2) {
+            if (Number(month) === 2) {
                 if (year % 4 === 0) {
                     if (day > 29) {
-                        return alert("Neispravan JMBG, dan ne moze biti veci od 29 u februaru prestupne");
+                        alert("Neispravan JMBG, dan ne moze biti veci od 29 u februaru prestupne");
+                        throw new Error();
                     }
                     return day;
                 }
                 else {
                     if (day > 28) {
-                        return alert("Neispravan JMBG, dan ne moze biti veci od 28 u februaru");
+                        alert("Neispravan JMBG, dan ne moze biti veci od 28 u februaru");
+                        throw new Error();
                     }
                     return day;
                 }
             }
             if (day > 30) {
-                return alert("Neispravan JMBG, dan ne moze biti veci od 30 u parnom mesecu");
+                alert("Neispravan JMBG, dan ne moze biti veci od 30 u parnom mesecu");
+                throw new Error();
             }
             return day;
         }
         if (day > 31) {
-            return alert("Neispravan JMBG, dan ne moze biti veci od 31 u neparnom mesecu");
+            alert("Neispravan JMBG, dan ne moze biti veci od 31 u neparnom mesecu");
+            throw new Error();
         }
         return day;
     }
@@ -68,14 +88,16 @@ export default function JmbgHandler() {
         let year = yearStr.charAt(0) === 0 ? "2" + yearStr : "1" + yearStr;
 
         if (year > Date.getYear) {
-            return alert("Neispravan JMBG, godina ne moze imati u buducnosti");
+            alert("Neispravan JMBG, godina ne moze imati u buducnosti");
+            throw new Error();
         }
         return year;
     }
 
     const getMonthName = month => {
         if (month > 12 && month < 1) {
-            return alert("Neispravan JMBG, godina ne moze imati vise od 12 meseci");
+            alert("Neispravan JMBG, godina ne moze imati vise od 12 meseci");
+            throw new Error();
         }
 
         switch (month) {
@@ -91,7 +113,8 @@ export default function JmbgHandler() {
             case '10': return 'Oktobar';
             case '11': return 'Novembar';
             case '12': return 'Decembar';
-            default: return 'Neispravan JMBG, neispravan mesec rodjenja.';
+            default: new Error('Exception message');
+
         }
 
     }
@@ -144,11 +167,9 @@ export default function JmbgHandler() {
                         name="jmbg"
                         pattern="\d*"
                         placeholder="Unesite JMBG za validaciju"
-                        ref={register({ required: true, maxLength: 13, minLength: 13 })}
+                        ref={register({ required: true })}
                     />
                     <br />
-
-                    {errors.jmbg && <span>Jmbg mora biti trinaestocifreni broj</span>}
 
                     <small>JMBG mora imati 13 cifara</small><br />
                 </div>
@@ -157,14 +178,14 @@ export default function JmbgHandler() {
                 </div>
             </form>
 
-            {jmbgObject && (
+            {showFields && (
                 <div>
-                    <h4>{jmbgObject.day}</h4>
-                    <h4>{jmbgObject.month}</h4>
-                    <h4>{jmbgObject.year}</h4>
-                    <h4>{jmbgObject.region}</h4>
-                    <h4>{jmbgObject.sex}</h4>
-                    <h4>{jmbgObject.checksum}</h4>
+                    <h4>Dan: {jmbgObject.day}</h4>
+                    <h4>Mesec: {jmbgObject.month}</h4>
+                    <h4>Godina: {jmbgObject.year}</h4>
+                    <h4>Region: {jmbgObject.region}</h4>
+                    <h4>Pol: {jmbgObject.sex}</h4>
+                    <h4>Kontrolna cifra: {jmbgObject.checksum}</h4>
                 </div>
             )}
 
