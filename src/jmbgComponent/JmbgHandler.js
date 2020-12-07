@@ -195,7 +195,6 @@ export default function JmbgHandler() {
                     </div>
                 </div>
             )}
-
         </div>
     );
 }

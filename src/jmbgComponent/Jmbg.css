@@ -2,23 +2,25 @@
 .form-style{
 	width:450px;
 	padding:30px;
-	margin:40px auto;
+	margin: 40px auto auto auto;
 	background: #FFF;
 	border-radius: 10px;
 	-webkit-border-radius:10px;
 	-moz-border-radius: 10px;
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
 	-moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
-	-webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+    -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
 }
 .form-style .inner-wrap{
 	padding: 30px;
-	background: #F8F8F8;
 	border-radius: 6px;
-	margin-bottom: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+	-moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+    -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
 }
 .form-style h1{
-	background: #2A88AD;
+	background: #282c34;
 	padding: 20px 30px 15px 30px;
 	margin: -30px -30px 30px -30px;
 	border-radius: 10px 10px 0 0;
@@ -30,7 +32,7 @@
 	-moz-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
 	-webkit-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
 	box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
-	border: 1px solid #257C9E;
+	border: 1px solid #282c34;
 }
 .form-style h4{
     font: normal 15px 'Bitter', serif;
@@ -43,7 +45,7 @@
 .form-style label{
 	display: block;
 	font: 13px Arial, Helvetica, sans-serif;
-	color: #888;
+	color: rgb(85, 85, 85);
 	margin-bottom: 15px;
 }
 .form-style input[name="jmbg"],
@@ -66,11 +68,11 @@
 
 .form-style .section{
 	font: normal 20px 'Bitter', serif;
-	color: #2A88AD;
+	color: #282c34;
 	margin-bottom: 5px;
 }
 .form-style .section span {
-	background: #2A88AD;
+	background:#282c34;
 	padding: 5px 10px 5px 10px;
 	position: absolute;
 	border-radius: 50%;
@@ -84,7 +86,7 @@
 }
 .form-style input[type="input"], 
 .form-style input[type="submit"]{
-	background: #2A88AD;
+    background-image: linear-gradient( #352626, #1e2253);
 	padding: 8px 20px 8px 20px;
 	border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -95,13 +97,13 @@
 	-moz-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
 	-webkit-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
 	box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
-	border: 1px solid #257C9E;
+	border: 1px solid #282c34;
     font-size: 15px;
     flex-direction: 'column';
 }
 .form-style input[type="input"]:hover, 
 .form-style input[type="submit"]:hover{
-	background: #2A6881;
+	background: #282c34;
 	-moz-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.28);
 	-webkit-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.28);
 	box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.28);
