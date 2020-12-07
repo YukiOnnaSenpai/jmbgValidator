@@ -113,7 +113,7 @@ export default function JmbgHandler() {
             case '10': return 'Oktobar';
             case '11': return 'Novembar';
             case '12': return 'Decembar';
-            default: new Error('Exception message');
+            default: new Error();
         }
     }
 
@@ -125,7 +125,8 @@ export default function JmbgHandler() {
             let babyNo = Number(sex) - 500;
             return 'Osoba zenskog pola, rodjena kao ' + babyNo + ' osoba zenskog pola za dati datum.';
         } else {
-            return alert('Nevalidan JMBG, neispravan jedinstveni broj pola.');
+            alert('Nevalidan JMBG, neispravan jedinstveni broj pola.');
+            throw new Error();
         }
 
     }
@@ -145,7 +146,8 @@ export default function JmbgHandler() {
             checksum = 0;
         }
         if (Number(JMBG.charAt(12)) !== checksum) {
-            return alert('Nevalidan JMBG, neispravna kontrona cifra.');
+            alert('Nevalidan JMBG, neispravna kontrona cifra.');
+            throw new Error();
         } else {
             return 'Kontrolna cifra ' + checksum + ' je validna.';
         }
