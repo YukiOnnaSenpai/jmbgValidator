@@ -47,7 +47,7 @@ export default function JmbgHandler() {
 
     const getJmbg = jmbg => {
         if (jmbg.length !== 13) {
-            alert("Jmbg mora biti trinaestocifreni broj");
+            alert("Jmbg mora biti trinaestocifreni broj.");
             throw new Error();
         }
         return String(jmbg);
@@ -58,45 +58,45 @@ export default function JmbgHandler() {
             if (Number(month) === 2) {
                 if (year % 4 === 0) {
                     if (day > 29) {
-                        alert("Nevalidan JMBG, dan ne moze biti veci od 29 u februaru prestupne");
+                        alert("Nevalidan JMBG, dan ne moze biti veci od 29 u februaru prestupne godine.");
                         throw new Error();
                     }
                     return day;
                 }
                 else {
                     if (day > 28) {
-                        alert("Nevalidan JMBG, dan ne moze biti veci od 28 u februaru");
+                        alert("Nevalidan JMBG, dan ne moze biti veci od 28 u mesecu februaru.");
                         throw new Error();
                     }
                     return day;
                 }
             }
             if (day > 30) {
-                alert("Nevalidan JMBG, dan ne moze biti veci od 30 u parnom mesecu");
+                alert("Nevalidan JMBG, dan ne moze biti veci od 30 u parnom mesecu.");
                 throw new Error();
             }
             return day;
         }
         if (day > 31) {
-            alert("Nevalidan JMBG, dan ne moze biti veci od 31 u neparnom mesecu");
+            alert("Nevalidan JMBG, dan ne moze biti veci od 31 u neparnom mesecu.");
             throw new Error();
         }
         return day;
     }
 
     const getYear = yearStr => {
-        let year = yearStr.charAt(0) === 0 ? "2" + yearStr : "1" + yearStr;
+        let year = Number(yearStr.charAt(0)) === 0 ? "2" + yearStr : "1" + yearStr;
 
         if (year > Date.getYear) {
-            alert("Nevalidan JMBG, godina ne moze imati u buducnosti");
+            alert("Nevalidan JMBG, godina ne moze biti u buducnosti.");
             throw new Error();
         }
         return year;
     }
 
     const getMonthName = month => {
-        if (month > 12 && month < 1) {
-            alert("Nevalidan JMBG, godina ne moze imati vise od 12 meseci");
+        if (month > 12 || month < 1) {
+            alert("Nevalidan JMBG, godina ne moze imati vise od 12 meseci.");
             throw new Error();
         }
 
@@ -125,7 +125,7 @@ export default function JmbgHandler() {
             let babyNo = Number(sex) - 500;
             return 'Osoba zenskog pola, rodjena kao ' + babyNo + ' osoba zenskog pola za dati datum.';
         } else {
-            return alert('Nevalidan JMBG, neispravan jedinstveni broj pola');
+            return alert('Nevalidan JMBG, neispravan jedinstveni broj pola.');
         }
 
     }
@@ -145,46 +145,57 @@ export default function JmbgHandler() {
             checksum = 0;
         }
         if (Number(JMBG.charAt(12)) !== checksum) {
-            return alert('Nevalidan JMBG, neispravna kontrona cifra');
+            return alert('Nevalidan JMBG, neispravna kontrona cifra.');
         } else {
-            return 'Kontrolna cifra ' + checksum + ' je validna';
+            return 'Kontrolna cifra ' + checksum + ' je validna.';
         }
+    }
+
+    const refreshPage = () => {
+        window.location.reload();
     }
 
     return (
         <div class="form-style">
             <div>
-                <h1> Aplikacija za validaciju JMBG-a: </h1>
+                <h1> Validiraj JMBG: <span>Aplikacija za validaciju JMBG-a.</span> </h1>
             </div>
             <div>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <div>
-                        <input
-                            name="jmbg"
-                            pattern="\d*"
-                            placeholder="Unesite JMBG za validaciju"
-                            ref={register({ required: true })}
-                        />
-                        <br />
+                    <div class="section"></div>
+                    <div class="inner-wrap">
+                        <label> Unesite JMBG <br />
+                            <input
+                                name="jmbg"
+                                pattern="\d*"
+                                ref={register({ required: true })}
+                            /></label>
                         <small>JMBG mora imati 13 cifara</small><br />
                     </div>
-                    <div>
+                    <div class="button-section">
                         <input type="submit" value="Validiraj" />
                     </div>
                 </form>
             </div>
-
+            <br /><br /><br />
             {showFields && (
                 <div>
-                    <h3>Dati JMBG je validan</h3>
-                    <h4>Dan rođenja: {jmbgObject.day}</h4>
-                    <h4>Mesec rođenja: {jmbgObject.month}</h4>
-                    <h4>Godina rođenja: {jmbgObject.year}</h4>
-                    <h4>Politička regija rođenja: {jmbgObject.region}</h4>
-                    <h4>Pol i jedinstveni broj: {jmbgObject.sex}</h4>
-                    <h4>Kontrolna cifra: {jmbgObject.checksum}</h4>
+                    <div class="section">Rezultati validacije: </div>
+                    <div class="inner-wrap">
+                        <h4><b>Dati JMBG je validan</b></h4>
+                        <h4><b>Dan rođenja:</b> {jmbgObject.day}</h4>
+                        <h4><b>Mesec rođenja:</b> {jmbgObject.month}</h4>
+                        <h4><b>Godina rođenja:</b> {jmbgObject.year}</h4>
+                        <h4><b>Politička regija rođenja:</b> {jmbgObject.region}</h4>
+                        <h4><b>Pol i jedinstveni broj:</b> {jmbgObject.sex}</h4>
+                        <h4><b>Kontrolna cifra:</b> {jmbgObject.checksum}</h4>
+                    </div>
+                    <div class="button-section">
+                        <input type="submit" onClick={refreshPage} value="Validiraj novi JMBG" />
+                    </div>
                 </div>
             )}
+
 
         </div>
     );
