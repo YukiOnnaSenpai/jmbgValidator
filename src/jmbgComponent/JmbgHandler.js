@@ -156,14 +156,14 @@ export default function JmbgHandler() {
     }
 
     return (
-        <div class="form-style">
+        <div className="form-style">
             <div>
                 <h1> Validiraj JMBG: <span>Aplikacija za validaciju JMBG-a.</span> </h1>
             </div>
             <div>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <div class="section"></div>
-                    <div class="inner-wrap">
+                    <div className="section"></div>
+                    <div className="inner-wrap">
                         <label> Unesite JMBG <br />
                             <input
                                 name="jmbg"
@@ -172,7 +172,7 @@ export default function JmbgHandler() {
                             /></label>
                         <small>JMBG mora imati 13 cifara</small><br />
                     </div>
-                    <div class="button-section">
+                    <div className="button-section">
                         <input type="submit" value="Validiraj" />
                     </div>
                 </form>
@@ -180,8 +180,8 @@ export default function JmbgHandler() {
             <br /><br /><br />
             {showFields && (
                 <div>
-                    <div class="section">Rezultati validacije: </div>
-                    <div class="inner-wrap">
+                    <div className="section">Rezultati validacije: </div>
+                    <div className="inner-wrap">
                         <h4><b>Dati JMBG je validan</b></h4>
                         <h4><b>Dan rođenja:</b> {jmbgObject.day}</h4>
                         <h4><b>Mesec rođenja:</b> {jmbgObject.month}</h4>
@@ -190,12 +190,11 @@ export default function JmbgHandler() {
                         <h4><b>Pol i jedinstveni broj:</b> {jmbgObject.sex}</h4>
                         <h4><b>Kontrolna cifra:</b> {jmbgObject.checksum}</h4>
                     </div>
-                    <div class="button-section">
+                    <div className="button-section">
                         <input type="submit" onClick={refreshPage} value="Validiraj novi JMBG" />
                     </div>
                 </div>
             )}
-
 
         </div>
     );
