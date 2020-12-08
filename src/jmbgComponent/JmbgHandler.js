@@ -91,11 +91,9 @@ export default function JmbgHandler() {
     }
 
     const getYear = yearStr => {
-        let year = Number(yearStr.charAt(0)) === 0 || Number(yearStr.charAt(0)) === 1  ? "2" + yearStr : "1" + yearStr;
-        console.log(Date.getYear)
-        
-        let current = new Date();
-        if (year > current.getYear()) {
+        let year = Number(yearStr.charAt(0)) === 0 ? "2" + yearStr : "1" + yearStr;
+
+        if (year > Date.getYear) {
             alert("Nevalidan JMBG, godina ne moze biti u buducnosti.");
             throw new Error();
         }
