@@ -124,7 +124,7 @@ export default function JmbgHandler() {
     }
 
     const getSex = sex => {
-        if (Number(sex) > 0 && Number(sex) < 499) {
+        if (Number(sex) >= 0 && Number(sex) <= 499) {
             return 'Osoba muskog pola, rodjena kao ' + Number(sex) + ' osoba muskog pola za dati datum.';
         }
         else if (Number(sex) > 500 && Number(sex) < 999) {
