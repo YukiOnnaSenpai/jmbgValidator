@@ -77,7 +77,7 @@ export default function JmbgHandler() {
                     return day;
                 }
             }
-            if (day > 30) {
+            if (day > 30 && month !== 8) {
                 alert("Nevalidan JMBG, dan ne moze biti veci od 30 u parnom mesecu.");
                 throw new Error();
             }
@@ -91,9 +91,11 @@ export default function JmbgHandler() {
     }
 
     const getYear = yearStr => {
-        let year = Number(yearStr.charAt(0)) === 0 ? "2" + yearStr : "1" + yearStr;
-
-        if (year > Date.getYear) {
+        let year = Number(yearStr.charAt(0)) === 0 || Number(yearStr.charAt(0)) === 1  ? "2" + yearStr : "1" + yearStr;
+        console.log(Date.getYear)
+        
+        let current = new Date();
+        if (year > current.getYear()) {
             alert("Nevalidan JMBG, godina ne moze biti u buducnosti.");
             throw new Error();
         }
