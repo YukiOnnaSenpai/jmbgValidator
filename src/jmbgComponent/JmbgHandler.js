@@ -9,12 +9,18 @@ export default function JmbgHandler() {
     const initialState = [{ day: 0, month: 0, year: 0, region: "", sex: "", checksum: 0 }];
     const { register, handleSubmit } = useForm({ mode: 'onBlur' });
     const [jmbgObject, setJmbgFields] = useState(initialState);
-    const [showFields, setShowFields] = useState(false);;
+    const [showFields, setShowFields] = useState(false);
+    const [ime, setIme] = useState('');
+    const [prezime, setPrezime] = useState('');
 
     const onSubmit = async data => {
 
         try {
             let stringifiedData = getJmbg(data.jmbg);
+
+            setIme(data.ime);
+
+            setPrezime(data.prezime);
 
             const day = getDay(stringifiedData.substring(0, 2), stringifiedData.substring(2, 4), stringifiedData.substring(4, 7));
 
@@ -166,6 +172,16 @@ export default function JmbgHandler() {
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="section"></div>
                     <div className="inner-wrap">
+                        <label> Unesite Ime <br />
+                            <input
+                                name="ime"
+                                ref={register({ required: true, pattern: /^[A-Za-z]+$/i })}
+                            /></label>
+                        <label> Unesite Prezime <br />
+                            <input
+                                name="prezime"
+                                ref={register({ required: true, pattern: /^[A-Za-z]+$/i })}
+                            /></label>
                         <label> Unesite JMBG <br />
                             <input
                                 name="jmbg"
@@ -184,7 +200,9 @@ export default function JmbgHandler() {
                 <div>
                     <div className="section">Rezultati validacije: </div>
                     <div className="inner-wrap">
-                        <h4><b>Dati JMBG je validan</b></h4>
+                        <h4><b>Dati JMBG je validan.</b></h4>
+                        <h4><b>Ime: </b> {ime}</h4>
+                        <h4><b>Prezime: </b>{prezime}</h4>
                         <h4><b>Dan rođenja:</b> {jmbgObject.day}</h4>
                         <h4><b>Mesec rođenja:</b> {jmbgObject.month}</h4>
                         <h4><b>Godina rođenja:</b> {jmbgObject.year}</h4>

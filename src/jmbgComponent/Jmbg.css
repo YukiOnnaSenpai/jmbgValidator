@@ -49,6 +49,8 @@
 	margin-bottom: 15px;
 }
 .form-style input[name="jmbg"],
+.form-style input[name="ime"],
+.form-style input[name="prezime"],
 .form-style textarea,
 .form-style select {
 	display: block;
