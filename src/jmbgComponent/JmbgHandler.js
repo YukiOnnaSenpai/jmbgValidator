@@ -3,9 +3,7 @@ import { regions } from './regions';
 import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
 
-
 export default function JmbgHandler() {
-
     const initialState = [{ day: 0, month: 0, year: 0, region: "", sex: "", checksum: 0 }];
     const { register, handleSubmit } = useForm({ mode: 'onBlur' });
     const [jmbgObject, setJmbgFields] = useState(initialState);
